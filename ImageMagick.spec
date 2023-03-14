@@ -10,7 +10,7 @@ Epoch:          1
 Epoch:          0
 %endif
 Version:        6.9.12.77
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An X application for displaying and manipulating images
 
 %global VER %(foo=%{version}; echo ${foo:0:6})
@@ -18,6 +18,11 @@ Summary:        An X application for displaying and manipulating images
 License:        ImageMagick
 Url:            https://legacy.imagemagick.org/
 Source0:        https://www.imagemagick.org/archive/%{name}-%{VER}-%{Patchlevel}.tar.xz
+# https://bugzilla.redhat.com/show_bug.cgi?id=2177631
+# rubygem-rmagick test suite fails with ImageMagick 6.9.12-76 and above, fixed by below
+# https://github.com/ImageMagick/ImageMagick/issues/6158
+# https://github.com/ImageMagick/ImageMagick6/commit/15c5b01124557ccca9a619bd435d91ecd73659d3
+Patch0:         ImageMagick6-terminate-loop-on-sentinel.patch
 
 BuildRequires:  pkgconfig(bzip2), pkgconfig(freetype2), pkgconfig(libjpeg), pkgconfig(libpng)
 BuildRequires:  pkgconfig(libtiff-4), giflib-devel, pkgconfig(zlib), perl-devel >= 5.8.1
@@ -335,6 +340,9 @@ rm PerlMagick/demo/Generic.ttf
 %doc PerlMagick/demo/ PerlMagick/Changelog PerlMagick/README.txt
 
 %changelog
+* Tue Mar 14 2023 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1:6.9.12.77-2
+- Backport upstream fix for GetPageGeometry misbehavior (bug 2177631)
+
 * Tue Feb 14 2023 Sérgio Basto <sergio@serjux.com> - 1:6.9.12.77-1
 - Update ImageMagick to 6.9.12.77
 

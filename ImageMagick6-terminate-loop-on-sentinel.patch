@@ -1,0 +1,23 @@
+From 15c5b01124557ccca9a619bd435d91ecd73659d3 Mon Sep 17 00:00:00 2001
+From: Cristy <urban-warrior@imagemagick.org>
+Date: Mon, 13 Mar 2023 07:42:46 -0400
+Subject: [PATCH] terminate loop on page sentinel
+ (#https://github.com/ImageMagick/ImageMagick/issues/6158)
+
+---
+ magick/geometry.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/magick/geometry.c b/magick/geometry.c
+index 6af9a36957..4a0c24eed9 100644
+--- a/magick/geometry.c
++++ b/magick/geometry.c
+@@ -492,6 +492,8 @@ MagickExport char *GetPageGeometry(const char *page_geometry)
+     int
+       status;
+     
++    if (Pagesizes[i].extent == 0)
++      break;  /* sentinel */
+     status=LocaleNCompare(Pagesizes[i].name,page_geometry,Pagesizes[i].extent);
+     if (status == 0)
+       {
