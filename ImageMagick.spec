@@ -51,6 +51,7 @@ BuildRequires:  pkgconfig(lqr-1)
 %endif
 BuildRequires:  pkgconfig(libraw) >= 0.14.8
 BuildRequires:  pkgconfig(libzstd)
+BuildRequires:  pkgconfig(libheif)
 BuildRequires:  autoconf automake gcc gcc-c++
 BuildRequires:  make
 
@@ -201,7 +202,8 @@ export CFLAGS="%{optflags} -DIMPNG_SETJMP_IS_THREAD_SAFE"
         --with-lqr \
 %endif
         --with-gvc \
-        --with-raqm
+        --with-raqm \
+        --with-heic
 
 # Do *NOT* use %%{?_smp_mflags}, this causes PerlMagick to be silently misbuild
 make
